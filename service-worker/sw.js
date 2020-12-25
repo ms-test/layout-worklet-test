@@ -8,12 +8,20 @@ self.addEventListener('install', event => {
   ])));
 });
 
+const excludedChildPaths = [
+'index.html',
+'service-worker.js',
+]
+
+function dummiedURL(url) {
+  return url.startsWith(self.registration.scope) && excludedChildPaths.every(path => url != new URL(path, self.location));
+  //return url == new URL('index.html', location) || url == new URL('service-worker.js', location);
+}
+
 self.addEventListener('fetch', event => {
-  if ( ! event.request.url.startsWith(self.registration.scope) ) {
-    console.log(event);
-  } else if ( event.request.url != new URL('index.html', location) && event.request.url != new URL('service-worker.js', location) ) {
-    console.log(event);
-  } else {
+  if ( dummiedURL(event.request.url) ) {
     return event.respondWith(new Response('dummy'));
+  } else {
+    console.log(event);
   }
 });
