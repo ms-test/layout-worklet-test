@@ -9,4 +9,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  if ( ! event.request.url.startsWith(self.registration.scope) ) {
+    console.log(event);
+  } else if ( event.request.url != new URL('index.html', location) && event.request.url != new URL('service-worker.js', location) ) {
+    console.log(event);
+  } else {
+    return event.respondWith(new Response('dummy'));
+  }
 });
