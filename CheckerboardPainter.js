@@ -1,4 +1,4 @@
-class CheckerboardPainter {
+export default class CheckerboardPainter {
   paint(ctx, geom, properties) {
     const colors = ['red', 'green', 'blue'];
     const size = 32;
